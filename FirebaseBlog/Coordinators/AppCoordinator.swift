@@ -25,8 +25,6 @@ class AppCoordinator: Coordinator
     }
     
     func switchViewController() {
-        //check if user defaults populated
-        //Helper.clearUserDefaults()
         let dict = Helper.retrieveUserDefaults()
         
         if let email = (dict["email"] as? String), let password = (dict["password"] as? String) {
