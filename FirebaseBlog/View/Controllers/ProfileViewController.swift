@@ -48,6 +48,13 @@ class ProfileViewController: UIViewController {
                      "age": Int(self.ageTextField?.text ?? "2")!
                     ]
                 )
+                { (error, ref) in
+                    if error != nil {
+                        Helper.showAlert(title: "Failure", message: "Error updating profile.", controller: self)
+                    } else {
+                        Helper.showAlert(title: "Success", message: "Profile updated.", controller: self)
+                    }
+                }
             }
         }
     }

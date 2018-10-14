@@ -12,7 +12,6 @@ import FirebaseAuth
 
 class PostsViewController: UIViewController {
     var ref: DatabaseReference?
-    var databaseHandle: DatabaseHandle?
     
     var postData = [Post]()
     @IBOutlet weak var tableView: UITableView!
@@ -28,16 +27,6 @@ class PostsViewController: UIViewController {
         let userId = Auth.auth().currentUser?.uid
         
         if let userId = userId {
-            
-            /*databaseHandle =  ref?.child("posts").child(userId).observe(.childAdded, with: { snapshot in
-                let record = snapshot.value as? [String: Any]
-                if let actualRecord = record {
-                    if let post = Post(documentId: userId, dictionary: actualRecord) {
-                        self.postData.append(post)
-                        self.tableView.reloadData()
-                    }
-                }
-            })*/
             
             ref?.child("posts").child(userId).queryOrdered(byChild: "created").observe(.value, with: { (snapshot) in
                 self.postData = []
@@ -69,18 +58,18 @@ extension PostsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell") as? PostViewCell
         let post = postData.reversed()[indexPath.row]
-        cell?.detailTextLabel?.text = post.text
+        cell?.postText?.text = post.text
         
         let date = Date(timeIntervalSince1970: post.created)
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         
         let dateTime = dateFormatter.string(from: date)
         
-        cell?.textLabel?.text = dateTime
+        cell?.createdText?.text = dateTime
         return cell!
     }
 }

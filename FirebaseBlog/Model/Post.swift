@@ -27,8 +27,6 @@ struct Post {
 extension Post: DocumentSerializable {
     init?(documentId: String, dictionary: [String : Any]) {
         
-        /*let createdDate = NSDate(timeIntervalSince1970: ((dictionary["created"] as? TimeInterval) ?? NSDate().timeIntervalSince1970)/1000)*/
-        
         guard let created = dictionary["created"] as? TimeInterval
             else {
                 return nil

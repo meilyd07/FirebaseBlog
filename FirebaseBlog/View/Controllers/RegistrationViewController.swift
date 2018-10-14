@@ -141,4 +141,26 @@ extension RegistrationViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == email || textField == password {
+            moveTextField(textfield: textField, moveDistance: -100, up: true)
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == email || textField == password {
+            moveTextField(textfield: textField, moveDistance: -100, up: false)
+        }
+    }
+    
+    func moveTextField(textfield: UITextField, moveDistance: Int, up: Bool) {
+        let moveDuration = 0.3
+        let movement: CGFloat = CGFloat(up ? moveDistance: -moveDistance)
+        UIView.beginAnimations("animateTextField", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(moveDuration)
+        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+        UIView.commitAnimations()
+    }
 }
